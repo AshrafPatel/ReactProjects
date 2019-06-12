@@ -1,0 +1,49 @@
+.orderContainer {
+    background-color: #0E2623;
+    margin: 15px;
+    text-align: left;
+    max-width: 700px;
+    box-shadow: 10px 10px 10px #107466;
+    transition: all 1s;
+    padding: 30px;
+}
+
+.orderContainer:hover {
+    transform: scale(1.05);
+}
+
+.worker {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.workerName {
+    margin-bottom: 30px;
+}
+
+.workerInfo {
+    text-align: center;
+    padding-top: 60px;
+}
+
+.worker > img {
+    flex: 1;
+}
+
+img {
+    border-radius: 100%;
+}
+
+.worker > .workerInfo {
+    flex: 4;
+}
+
+span {
+    margin-right: 10px;
+}
+
+.date {
+    padding-top: 30px;
+    text-align: center;
+}
