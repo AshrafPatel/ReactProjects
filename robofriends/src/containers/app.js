@@ -1,6 +1,7 @@
 import React from "react"
-import Cardlist from "./cardlist"
-import SearchBox from "./searchbox.js"
+import Cardlist from "../components/cardlist"
+import SearchBox from "../components/searchbox.js"
+import Scroll from "../components/scroll.js"
 import "./app.css"
 
 class App extends React.Component {
@@ -31,10 +32,12 @@ class App extends React.Component {
             return robot.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
         })
         return (
-            <div className = "tc" >
+            <div className="tc">
                 <h1>Robot Friends</h1>
                 <SearchBox searchChange={this.onSearchHandler}/>
-                <Cardlist robots = {filteredRobots}/>
+                <Scroll>
+                    <Cardlist robots = {filteredRobots}/>
+                </Scroll>
             </div>
         )
     }
