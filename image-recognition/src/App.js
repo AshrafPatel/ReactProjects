@@ -7,6 +7,8 @@ import Rank from "./components/Rank/Rank";
 import Particles from 'react-particles-js';
 import Clarifai from "clarifai";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition"
+import SignIn from "./components/SignIn/SignIn"
+import Register from "./components/Register/Register"
 
 const particleParams = {
   particles: {
@@ -52,8 +54,35 @@ class App extends React.Component {
     super();
     this.state = {
       userQuery: "",
-      input: ""
+      input: "",
+      boundingBox: {
+        
+      },
+      route: "signin",
+      isSignedIn: false
     }
+  }
+
+  onRouteChange = (newRoute) => {
+    newRoute === "home" ? this.setState({isSignedIn: true}) : this.setState({isSignedIn: false})
+    this.setState({route: newRoute})
+  }
+
+  calculateFaces = (data) => {
+    const calarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputImage");  //used to calculate width and height
+    const height = Number(image.height)
+    const width = Number(image.width)
+    return {
+      leftCol: calarifaiFace.left_col * width,
+      rightCol: width - (calarifaiFace.right_col * width),
+      topRow: calarifaiFace.top_row * height,
+      bottomRow: height-(calarifaiFace.bottom_row*height)
+    }
+  }
+
+  displayFaces = (boundingBox) => {
+    this.setState({boundingBox: boundingBox})
   }
 
   onInputHandler = (event) => {
@@ -63,26 +92,29 @@ class App extends React.Component {
   onButtonHandler = () => {
     this.setState({userQuery: this.state.input})
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then(function (response) {
-        console.log(response);
-    },
-    function (err) { // there was an error}
-        
-    });
+      .then(response => this.displayFaces(this.calculateFaces(response)))
+      .catch(err => console.log(err))
   }
 
   render() {
     return (
       <div className="App">
         <Particles params={particleParams} style={particleStyle}/>
-        <Navigation/>
-        <Logo/>
-        <Rank/>
-        <ImageURLForm 
-          onButtonHandler={this.onButtonHandler}
-          onInputHandler={this.onInputHandler}/>
-        <FaceRecognition imageURL={this.state.userQuery}/>
-      </div>
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn}/>
+        {this.state.route === "home"
+          ? <div>
+              <Logo/>
+              <Rank/>
+              <ImageURLForm 
+                onButtonHandler={this.onButtonHandler}
+                onInputHandler={this.onInputHandler}/>
+              <FaceRecognition boundingBox={this.state.boundingBox} imageURL={this.state.userQuery}/>
+            </div>
+          : (this.state.route === "signin" 
+            ? <SignIn onRouteChange={this.onRouteChange}/>
+            : <Register onRouteChange={this.onRouteChange}/>)
+        } 
+        </div>
     )
   }
 }
