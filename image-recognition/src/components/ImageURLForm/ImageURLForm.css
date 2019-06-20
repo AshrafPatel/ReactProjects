@@ -1,0 +1,7 @@
+.form {
+    width: 700px;
+    background: linear-gradient(135deg, #9ac9f8 21px, #e459e4 22px, #e459e4 24px, transparent 24px, transparent 67px, #e459e4 67px, #e459e4 69px, transparent 69px),
+    linear-gradient(225deg, #9ac9f8 21px, #e459e4 22px, #e459e4 24px, transparent 24px, transparent 67px, #e459e4 67px, #e459e4 69px, transparent 69px)0 64px;
+    background-color:#9ac9f8;
+    background-size: 64px 128px;
+}
