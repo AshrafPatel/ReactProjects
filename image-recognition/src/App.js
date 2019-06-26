@@ -5,7 +5,6 @@ import Logo from "./components/Logo/Logo";
 import ImageURLForm from "./components//ImageURLForm/ImageURLForm";
 import Rank from "./components/Rank/Rank";
 import Particles from 'react-particles-js';
-import Clarifai from "clarifai";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition"
 import SignIn from "./components/SignIn/SignIn"
 import Register from "./components/Register/Register"
@@ -45,40 +44,57 @@ const particleStyle = {
   zIndex: "-1" 
 }
 
-const app = new Clarifai.App({
-  apiKey: "bf7c69b8b3f14e19b07d70cfe2bddf82"
-});
+const initialState = {
+  userQuery: "",
+  input: "",
+  boundingBox: [],
+  route: "signin",
+  isSignedIn: false,
+  user: {
+    id: "",
+    name: "",
+    email: "",
+    password: "",
+    entries: "",
+    joined: ""
+  }
+}
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      userQuery: "",
-      input: "",
-      boundingBox: {
-        
-      },
-      route: "signin",
-      isSignedIn: false
-    }
+    this.state = initialState
+  }
+
+  loadUser = (data) => {
+    this.setState({user: data})
   }
 
   onRouteChange = (newRoute) => {
-    newRoute === "home" ? this.setState({isSignedIn: true}) : this.setState({isSignedIn: false})
+    if (newRoute === "signout") {
+      this.setState(initialState);
+    }
+    else if (newRoute === "home") {
+      this.setState({isSignedIn: true});
+    }
     this.setState({route: newRoute})
   }
 
   calculateFaces = (data) => {
-    const calarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const faceArray = [];
     const image = document.getElementById("inputImage");  //used to calculate width and height
     const height = Number(image.height)
     const width = Number(image.width)
-    return {
-      leftCol: calarifaiFace.left_col * width,
-      rightCol: width - (calarifaiFace.right_col * width),
-      topRow: calarifaiFace.top_row * height,
-      bottomRow: height-(calarifaiFace.bottom_row*height)
+    for (let i =0; i < data.outputs[0].data.regions.length; i++) {
+      let clarifaiFace = data.outputs[0].data.regions[i].region_info.bounding_box;
+      console.log(clarifaiFace);
+      clarifaiFace.left_col = clarifaiFace.left_col * width;
+      clarifaiFace.right_col = width - (clarifaiFace.right_col * width);
+      clarifaiFace.top_row = clarifaiFace.top_row * height;
+      clarifaiFace.bottom_row = height-(clarifaiFace.bottom_row*height);
+      faceArray.push(clarifaiFace)
     }
+    return faceArray;
   }
 
   displayFaces = (boundingBox) => {
@@ -91,12 +107,39 @@ class App extends React.Component {
 
   onButtonHandler = () => {
     this.setState({userQuery: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then(response => this.displayFaces(this.calculateFaces(response)))
+    fetch("http://localhost:3010/imageurl", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch("http://localhost:3010/image", {
+            method: "put",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            this.setState(Object.assign(this.state.user, {entries: data}))
+          })
+        }
+        this.displayFaces(this.calculateFaces(response))
+      })
       .catch(err => console.log(err))
   }
 
   render() {
+    const {name, entries} = this.state.user;
     return (
       <div className="App">
         <Particles params={particleParams} style={particleStyle}/>
@@ -104,15 +147,15 @@ class App extends React.Component {
         {this.state.route === "home"
           ? <div>
               <Logo/>
-              <Rank/>
+              <Rank name={name} entries={entries}/>
               <ImageURLForm 
                 onButtonHandler={this.onButtonHandler}
                 onInputHandler={this.onInputHandler}/>
               <FaceRecognition boundingBox={this.state.boundingBox} imageURL={this.state.userQuery}/>
             </div>
           : (this.state.route === "signin" 
-            ? <SignIn onRouteChange={this.onRouteChange}/>
-            : <Register onRouteChange={this.onRouteChange}/>)
+            ? <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+            : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>)
         } 
         </div>
     )
