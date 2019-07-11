@@ -1,0 +1,36 @@
+.App {
+  margin: auto;
+  text-align: center;
+  padding: 10px 5px;
+}
+
+.card-row {
+  margin: auto;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-family: 'Patua One', cursive;
+  font-size: 75px;
+}
+
+hr {
+  width: 35%;
+  border-top: 11px solid black;
+  margin-bottom: 100px;
+}
+
+.card-types {
+    margin: auto;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
