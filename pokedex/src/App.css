@@ -2,6 +2,8 @@
   margin: auto;
   text-align: center;
   padding: 10px 5px;
+  min-height: 1100px;
+  background: linear-gradient(#2C6A9A, black);
 }
 
 .card-row {

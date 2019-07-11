@@ -54,11 +54,11 @@ class App extends Component{
     let filteredArray = [...this.state.pokemon]
     if (event.target.value !== "") {
       filteredArray = this.state.pokemon.filter(obj => {
-        return obj["name"].indexOf(event.target.value) > -1;
+        return obj["name"].indexOf(event.target.value.toLowerCase()) > -1;
       })
     }
     this.setState({
-      searchText: event.target.value,
+      searchText: event.target.value.toLowerCase(),
       filtered: filteredArray
     })
   }
@@ -105,7 +105,6 @@ class App extends Component{
     return (
         <div className="App">
           <h1>Pokedex</h1>
-          <hr></hr>
           <Search searchPokemon={this.onSearch}/>
           <div className="card-row">
             {show}
