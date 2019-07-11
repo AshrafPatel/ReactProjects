@@ -10,7 +10,7 @@ const card = ({name, exp, image, types, color}) => {
     }
 
     return (
-        <div className="card" style={{background: colorCode}}>
+        <div className="card" style={{background: colorCode, boxShadow: "5px 3px black"}}>
             <h2 className="card-name">{name}</h2>
             <img className="card-image" src={image} alt="pokemon"/>
             <h3 className="card-exp">exp: {exp}</h3>

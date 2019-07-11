@@ -1,8 +1,13 @@
 .card {
-    margin: 10px 10px;
+    margin: 15px 20px;
     color: white;
     height: 500px;
     width: 330px;
+}
+
+.card:hover {
+    transition: 1s;
+    transform: scale(1.1);
 }
 
 .card-image {
@@ -14,6 +19,7 @@
     text-transform: capitalize;
     font-family: 'Patua One', cursive;
     font-size: 40px;
+    text-shadow: 2px 2px black;
 }
 
 .type-container {
