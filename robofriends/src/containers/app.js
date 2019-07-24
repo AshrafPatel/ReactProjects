@@ -2,21 +2,28 @@ import React from "react"
 import Cardlist from "../components/cardlist"
 import SearchBox from "../components/searchbox.js"
 import Scroll from "../components/scroll.js"
+
+//Redux imports
 import {setSearchField} from "../actions"
 import {connect} from "react-redux"
+
 import "./app.css"
 
+
+
+//Redux Variables
 const mapStateToProps = state => {
     return {
         searchField: state.searchField
     }
 }
-
 const mapDispatchToProps = dispatch => {
     return {
         onSearchHandler: (event) => dispatch(setSearchField(event.target.value))
     }
 }
+
+
 
 
 class App extends React.Component {
