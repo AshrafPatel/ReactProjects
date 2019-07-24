@@ -4,22 +4,25 @@ import SearchBox from "../components/searchbox.js"
 import Scroll from "../components/scroll.js"
 
 //Redux imports
-import {setSearchField} from "../actions"
+import {setSearchField, requestRobots} from "../actions"
 import {connect} from "react-redux"
 
 import "./app.css"
 
 
 
-//Redux Variables
+//Redux Variables helps turn state into props
 const mapStateToProps = state => {
     return {
-        searchField: state.searchField
+        searchField: state.searchRobots.searchField,
+        robots: state.getRobots.robots,
+        error: state.getRobots.error
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onSearchHandler: (event) => dispatch(setSearchField(event.target.value))
+        onSearchHandler: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestRobots: () => requestRobots(dispatch)
     }
 }
 
@@ -27,26 +30,12 @@ const mapDispatchToProps = dispatch => {
 
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            robots: []
-        }
-    }
-
     componentDidMount() {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then(response => {
-                return response.json()                //convert data to JSON return
-            })
-            .then(users => {
-                this.setState({robots: users})      //set state
-            });
+        this.props.onRequestRobots();
     }
 
     render() {
-        const {robots} = this.state;
-        const {onSearchHandler, searchField} = this.props
+        const {onSearchHandler, searchField, robots} = this.props
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase())
         })

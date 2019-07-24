@@ -3,8 +3,6 @@ import Card from "./card";
 
 
 const Cardlist = ({robots}) => {
-    console.log(robots);
-
     return (
         <div>
             {
