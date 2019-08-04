@@ -4,17 +4,31 @@ import Card from "./CardComponent/Card"
 import './App.css';
 import Search from "./SearchComponent/Search"
 
+//Redux imports
+import {connect} from "react-redux"
+import { getSearchRequest } from './actions';
+
 //https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png
 //https://pokeapi.co/api/v2/pokemon/1
+
+const mapStateToProps = (state) =>  {
+  return {
+    searchBox: state.setSearchField.searchBox
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>  {
+  return {
+    onSearchHandler: (event) => dispatch(getSearchRequest(event.target.value))
+  }
+}
 
 class App extends Component{
   constructor() {
     super();
     this.state = {
       pokemon: [],
-      isLoaded: false,
-      searchText: "",
-      filtered: []
+      isLoaded: false
     }
   }
 
@@ -43,76 +57,65 @@ class App extends Component{
         }
         this.setState({
           pokemon: [...arr],
-          isLoaded: loaded,
-          filtered: [...arr]
+          isLoaded: loaded
         });
       })
     }
   }
 
-  onSearch = (event) => {
-    let filteredArray = [...this.state.pokemon]
-    if (event.target.value !== "") {
-      filteredArray = this.state.pokemon.filter(obj => {
-        return obj["name"].indexOf(event.target.value.toLowerCase()) > -1;
-      })
-    }
-    this.setState({
-      searchText: event.target.value.toLowerCase(),
-      filtered: filteredArray
-    })
-  }
-
   render() {
+    const {onSearchHandler, searchBox} = this.props
     if (!this.state.isLoaded) {
       return (<h2>Is loading</h2>)
     } else {
-      let show = this.state.filtered.map(obj => {
-      let color = [];
-      let types = obj.types.map((typ, index) => {
+        const filteredPokemon = this.state.pokemon.filter(poke => {
+          return poke.name.toLowerCase().includes(searchBox.toLowerCase())
+        })
+        let show = filteredPokemon.map(obj => {
+          let color = [];
+          let types = obj.types.map((typ, index) => {
+            if (typ.type.name === "poison") {color.push("#A040A0");}
+            else if (typ.type.name === "fire") {color.push("#F08030");}
+            else if (typ.type.name === "flying") {color.push("#A890F0");}
+            else if (typ.type.name === "normal") {color.push("#A8A878");}
+            else if (typ.type.name === "ground") {color.push("#E0C068");}
+            else if (typ.type.name === "grass") {color.push("#78C850");}
+            else if (typ.type.name === "water") {color.push("#6890F0");}
+            else if (typ.type.name === "psychic") {color.push("#F85888");}
+            else if (typ.type.name === "fighting") {color.push("#C03028");}
+            else if (typ.type.name === "bug") {color.push("#A8B820");}
+            else if (typ.type.name === "electric") {color.push("#F8D030");}
+            else if (typ.type.name === "rock") {color.push("#B8A038");}
+            else if (typ.type.name === "steel") {color.push("#B8B8D0");}
+            else if (typ.type.name === "ice") {color.push("#98D8D8");}
+            else if (typ.type.name === "ghost") {color.push("#705898");}
+            else if (typ.type.name === "dark") {color.push("#484038");}
+            else if (typ.type.name === "dragon") {color.push("#7038F8");}
+            else if (typ.type.name === "fairy") {color.push("#FF65D5");}
 
-      if (typ.type.name === "poison") {color.push("#A040A0");}
-      else if (typ.type.name === "fire") {color.push("#F08030");}
-      else if (typ.type.name === "flying") {color.push("#A890F0");}
-      else if (typ.type.name === "normal") {color.push("#A8A878");}
-      else if (typ.type.name === "ground") {color.push("#E0C068");}
-      else if (typ.type.name === "grass") {color.push("#78C850");}
-      else if (typ.type.name === "water") {color.push("#6890F0");}
-      else if (typ.type.name === "psychic") {color.push("#F85888");}
-      else if (typ.type.name === "fighting") {color.push("#C03028");}
-      else if (typ.type.name === "bug") {color.push("#A8B820");}
-      else if (typ.type.name === "electric") {color.push("#F8D030");}
-      else if (typ.type.name === "rock") {color.push("#B8A038");}
-      else if (typ.type.name === "steel") {color.push("#B8B8D0");}
-      else if (typ.type.name === "ice") {color.push("#98D8D8");}
-      else if (typ.type.name === "ghost") {color.push("#705898");}
-      else if (typ.type.name === "dark") {color.push("#484038");}
-      else if (typ.type.name === "dragon") {color.push("#7038F8");}
-      else if (typ.type.name === "fairy") {color.push("#FF65D5");}
+            if (index + 1 === 1) {
+              return (<p className="card-types">Type: {typ.type.name}</p>)
+            } else {
+              return (<p className="card-types">Type{index+1}: {typ.type.name}</p>)
+            }
+          })
 
-      if (index + 1 === 1) {
-        return (<p className="card-types">Type: {typ.type.name}</p>)
-      } else {
-        return (<p className="card-types">Type{index+1}: {typ.type.name}</p>)
-        }
+          return (
+            <Card name={obj.name} image={obj.image} exp={obj.exp} types={types} color={color}/>
+          )
       })
-
+      
       return (
-        <Card name={obj.name} image={obj.image} exp={obj.exp} types={types} color={color}/>
-      )
-    })
-    
-    return (
-        <div className="App">
-          <h1>Pokedex</h1>
-          <Search searchPokemon={this.onSearch}/>
-          <div className="card-row">
-            {show}
+          <div className="App">
+            <h1>Pokedex</h1>
+            <Search searchPokemon={onSearchHandler}/>
+            <div className="card-row">
+              {show}
+            </div>
           </div>
-        </div>
-      )
+        )
     }
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

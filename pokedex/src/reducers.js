@@ -2,7 +2,7 @@
 import {SEARCH_FIELD} from "./constant";
 
 //REQUESTING DATA
-import {REQUESTING_POKEDEX, RECIEVED_POKEDEX, ERROR_RECIEVING_POKEDEX} from "./constant"
+//import {REQUESTING_POKEDEX, RECIEVED_POKEDEX, ERROR_RECIEVING_POKEDEX} from "./constant"
 
 //SEARCH INITIAL STATE
 const initialSearch = {
@@ -10,14 +10,12 @@ const initialSearch = {
 }
 
 //SEARCH REDUCER
-export const searchPokemon = (state = initialSearch, action ={}) => {
+export const setSearchField = (state = initialSearch, action ={}) => {
     switch(action.type) {
         case SEARCH_FIELD:
-            state = {...state, searchBox: action.payload}
-            break;
+            return state = Object.assign({}, state, {searchBox: action.payload})
         default:
-            break
+            return state;
     }
-    return state;
 }
 

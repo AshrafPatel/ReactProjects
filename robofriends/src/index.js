@@ -14,7 +14,6 @@ import "tachyons";
 import App from "./containers/app"
 
 const logger = createLogger()
-
 const rootReducer = combineReducers({searchRobots, getRobots});
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger))             //rootReducer
 
