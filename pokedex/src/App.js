@@ -1,4 +1,3 @@
-/* eslint-disable no-loop-func */
 import React, {Component } from 'react';
 import Card from "./CardComponent/Card"
 import './App.css';
@@ -6,69 +5,34 @@ import Search from "./SearchComponent/Search"
 
 //Redux imports
 import {connect} from "react-redux"
-import { getSearchRequest } from './actions';
-
-//https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png
-//https://pokeapi.co/api/v2/pokemon/1
+import { getSearchRequest, requestPokemon } from './actions';
 
 const mapStateToProps = (state) =>  {
   return {
-    searchBox: state.setSearchField.searchBox
+    searchBox: state.setSearchField.searchBox,
+    pokemon: state.getPokemon.pokemon,
+    loaded: state.getPokemon.loaded
   }
 }
 
 const mapDispatchToProps = (dispatch) =>  {
   return {
-    onSearchHandler: (event) => dispatch(getSearchRequest(event.target.value))
+    onSearchHandler: (event) => dispatch(getSearchRequest(event.target.value)),
+    onRequestPokemon: () => requestPokemon(dispatch)
   }
 }
 
 class App extends Component{
-  constructor() {
-    super();
-    this.state = {
-      pokemon: [],
-      isLoaded: false
-    }
-  }
-
   componentDidMount() {
-    let arr = []
-    let loaded = false
-    for (let i = 1; i < 808; i++) {
-      fetch("https://pokeapi.co/api/v2/pokemon/" + i)//+ char + ".png")
-      .then(result => result.json())
-      .then(data => {
-        let char = i;
-        if (i < 10) {
-          char = "00" + i;
-        } else if (i > 9 && i < 100) {
-          char = "0" + i;
-        }
-        let obj = {
-          name: data.name,
-          image: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" + char + ".png",
-          exp: data.base_experience,
-          types: data.types
-        }
-        arr.push(obj)
-        if (i === 807) { 
-          loaded = true
-        }
-        this.setState({
-          pokemon: [...arr],
-          isLoaded: loaded
-        });
-      })
-    }
+    this.props.onRequestPokemon();
   }
 
   render() {
-    const {onSearchHandler, searchBox} = this.props
-    if (!this.state.isLoaded) {
+    const {onSearchHandler, searchBox, pokemon, loaded} = this.props
+    if (!loaded) {
       return (<h2>Is loading</h2>)
     } else {
-        const filteredPokemon = this.state.pokemon.filter(poke => {
+        const filteredPokemon = pokemon.filter(poke => {
           return poke.name.toLowerCase().includes(searchBox.toLowerCase())
         })
         let show = filteredPokemon.map(obj => {
