@@ -1,0 +1,40 @@
+.rollButton {
+    -webkit-box-shadow: -1px 0px 0px 0px rgba(219, 186, 95, 0.99);
+    -moz-box-shadow: -1px 0px 0px 0px rgba(219, 186, 95, 0.99);
+    box-shadow: -1px 0px 0px 0px rgba(219, 186, 95, 0.99);
+    border: 1px solid #333333;
+    background: #dbba5f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#dbba5f), to(#dbba5f));
+    background: -webkit-linear-gradient(top, #dbba5f, #dbba5f);
+    background: -moz-linear-gradient(top, #dbba5f, #dbba5f);
+    background: -ms-linear-gradient(top, #dbba5f, #dbba5f);
+    background: -o-linear-gradient(top, #dbba5f, #dbba5f);
+    background-image: -ms-linear-gradient(top, #dbba5f 0%, #dbba5f 100%);
+    padding: 30px 100px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 25px;
+    text-shadow: #7ea4bd 0 1px 0;
+    color: #a1a1a1;
+    font-size: 44px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: helvetica, serif;
+    text-decoration: none;
+    margin: 0 auto;
+
+}
+
+.rollButton:hover {
+    border: 1px solid #333333;
+    text-shadow: #1e4158 0 1px 0;
+    background: #d9c35f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d9c35f), to(#d9c35f));
+    background: -webkit-linear-gradient(top, #d9c35f, #d9c35f);
+    background: -moz-linear-gradient(top, #d9c35f, #d9c35f);
+    background: -ms-linear-gradient(top, #d9c35f, #d9c35f);
+    background: -o-linear-gradient(top, #d9c35f, #d9c35f);
+    background-image: -ms-linear-gradient(top, #d9c35f 0%, #d9c35f 100%);
+    color: #fff;
+}
+
