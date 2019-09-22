@@ -1,0 +1,30 @@
+.Cell {
+  height: 100px;
+  width: 100px;
+  background-color: black;
+  transition: 0.5s;
+  box-shadow: 0 0 5px #FFF,
+  0 0 10px #000000,
+  0 0 15px #000000,
+  0 0 20px #000000,
+  0 0 30px #000000,
+  0 0 40px #000000,
+  0 0 55px #000000,
+  0 0 75px #000000;
+}
+
+.Cell-lit {
+  background: radial-gradient(green, white);
+  box-shadow: 0 0 5px #FFF,
+  0 0 10px #FFF,
+  0 0 15px #FFF,
+  0 0 20px #49ff18,
+  0 0 30px #49FF18,
+  0 0 40px #49FF18,
+  0 0 55px #49FF18,
+  0 0 75px #49ff18;
+}
+
+.Cell:hover {
+  opacity: 1;
+}
