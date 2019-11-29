@@ -1,0 +1,38 @@
+.completed {
+    color: rebeccapurple;
+    text-decoration: line-through;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.showTodo {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-delete:hover {
+    background: red;
+    border-color: red;
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
+
+.btn-edit:hover {
+    background: gold;
+    border-color: gold;
+}
+
+.btn-edit:active {
+    transform: scale(0.95);
+}
+
+.btn-update:hover {
+    background: rgb(84, 194, 84);
+    border-color: rgb(84, 194, 84);
+}
+
+.btn-update:active {
+    transform: scale(0.95);
+}

@@ -1,6 +1,7 @@
 import React from "react"
 import Task from "./Task"
 import TodoForm from "./TodoForm"
+import "./TodoList.css"
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class TodoList extends React.Component {
         this.create = this.create.bind(this)
         this.remove = this.remove.bind(this)
         this.update = this.update.bind(this)
+        this.complete = this.complete.bind(this)
     }
 
     create(newTodo) {
@@ -37,6 +39,18 @@ class TodoList extends React.Component {
         })
     }
 
+    complete(id) {
+        const newTodo = this.state.list.map(todo => {
+            if (todo.id === id) {
+                return { ...todo, completed: !todo.completed }
+            }
+            return todo
+        })
+        this.setState({
+            list: newTodo
+        })
+    }
+
     render() {
         const {list} = this.state
         const todos = list.map((todo) => {
@@ -45,14 +59,14 @@ class TodoList extends React.Component {
                     task={todo.task} 
                     removeTask={this.remove}
                     updateTask={this.update}
+                    completeTask={this.complete}
                     key={todo.id} 
                     id={todo.id}
                 />
             )
         })
         return (
-            <div>
-                <h1>Todo List</h1>
+            <div className="todolist">
                 <TodoForm newTodo={this.create}/>
                 <ul>
                     {todos}

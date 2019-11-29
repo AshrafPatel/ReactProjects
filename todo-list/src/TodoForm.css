@@ -1,0 +1,94 @@
+form {
+    overflow: overlay;
+}
+
+form label {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.btn,
+input {
+    line-height: 2em;
+    border-radius: 3px;
+    border: 0;
+    display: inline-block;
+    margin: 15px 0;
+    padding: 0.2em 1em;
+    font-size: 1em;
+}
+
+input[type='text'] {
+    border: 1px solid #ddd;
+    min-width: 80%;
+    transition: all ease-in 0.25s;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #a3b1ff;
+}
+
+input::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+    font-style: italic;
+}
+
+.btn {
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    box-shadow: 0, 4px, #eee;
+    max-height: 40px;
+    top: 0;
+    position: relative;
+}
+
+.btn:hover {
+    top: 4px;
+    box-shadow: 0, 2px, #eee;
+}
+
+.btn:active {
+    top: 4px;
+    box-shadow: 0;
+}
+
+.btn-add {
+    background: #ddd;
+    color: #fefefe;
+    border-color: #ddd;
+    min-width: 17%;
+    transition: all ease-in 0.25s;
+    font-size: 2.2em;
+    line-height: 0.5em;
+    padding: 0.3em 0.3em;
+    float: right;
+}
+
+.btn-add:hover {
+    background: #4442f6;
+    border-color: #4442f6;
+}
+
+.btn-add:active {
+    transform: scale(0.95);
+}
+
+li {
+    position: relative;
+    list-style-type: none;
+    display: block;
+    margin: 10px 0;
+    min-width: 85%;
+    background: #e0e8f5;
+    border-radius: 3px;
+    padding-left: 38px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 49px;
+    text-align: left;
+}
