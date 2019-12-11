@@ -1,0 +1,46 @@
+.joke {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eeeeee;
+    font-weight: 400;
+    padding: 1.5rem;
+}
+
+.joke_buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+}
+
+.joke_text {
+    width: 75%;
+    font-size:  1.2rem;
+}
+
+.joke_votes {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    border: 3px solid green;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 100;
+    box-shadow: 0 19px 38px #000000, 0 19px 12px #000000;
+}
+
+.fa-arrow-up, .fa-arrow-down {
+    font-size: 1.5em;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.em {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 19px 38px #000000, 0 19px 12px #000000;
+}
